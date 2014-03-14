@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript">
+		// Connect to local host at the port
+			var socketio = io.connect("127.0.0.1:8080");
+
+			socketio.on("message_to_client", function(data) {
+				document.getElementById("history").innerHTML = ("<hr/>" + data['message'] + document.getElementById("history").innerHTML);
+			});
+
+			function sendMessage() {
+				// Get the value of the input and send it to server using socket library
+				var msg = document.getElementById("message_input").value;
+				socketio.emit("message_to_server", { message : msg});
+			}
+		</script>
+	</head>
+	<body>
+		<input type="text" id="message_input"/>
+		<button onclick="sendMessage()">Send Message to Server</button>
+		<div id="history"></div>
+	</body>
+</html>	
